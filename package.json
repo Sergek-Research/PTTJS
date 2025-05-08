@@ -1,6 +1,6 @@
 {
   "name": "@sergek-research/pttjs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Plain Text Table JavaScript (PTTJS) format tooling",
   "type": "module",
   "exports": {
