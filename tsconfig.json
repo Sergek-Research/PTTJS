@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    // === Основные опции для генерации .d.ts из JSDoc ===
+    "allowJs": true,             // Разрешить обработку JavaScript файлов
+    "declaration": true,         // Генерировать соответствующие '.d.ts' файлы
+    "emitDeclarationOnly": true, // Генерировать только '.d.ts' файлы (не компилировать JS в JS)
+    "outDir": "dist",            // Папка для вывода '.d.ts' файлов (туда же, куда и JS сборка)
+
+    // === Настройки модулей и совместимости ===
+    "module": "ESNext",          // Или "ES2020", "ES2022"
+    "moduleResolution": "node",  // Или "bundler" для TS 5+
+    "target": "ES2020",          // Целевая версия JavaScript (для контекста типов)
+    "esModuleInterop": true,     // Для лучшей совместимости с CommonJS модулями
+    "skipLibCheck": true,        // Пропускать проверку типов всех файлов декларации (*.d.ts)
+    "forceConsistentCasingInFileNames": true,
+
+    // === Для улучшения работы с JSDoc и разрешения типов ===
+    "strict": false,             
+    "baseUrl": "./src",          // Базовый URL для разрешения модулей (если используете @typedef {import('./path').Type})
+    "paths": {               
+      // "@/*": ["*"]
+    },
+    "maxNodeModuleJsDepth": 0    // Глубина поиска JSDoc в node_modules (0 - не искать)
+  },
+  "include": [
+    "src/**/*.js"                // Укажите путь к исходным JavaScript файлам
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "tests",                     
+    "webpack.config.cjs",
+    "babel.config.cjs",
+    "jest.config.js",
+    "eslint.config.js"
+    // Другие файлы, которые не должны обрабатываться для генерации типов
+  ]
+}
