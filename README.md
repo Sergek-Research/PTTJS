@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Sergek-Research/PTTJS/main/assets/logo.png"
+       width="200" alt="PTTJS logo">
+</p>
+
 # PTTJS - Plain Text Table JavaScript
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://github.com/Sergek-Research/PTTJS/blob/main/LICENSE)
