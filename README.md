@@ -3,102 +3,102 @@
        width="200" alt="PTTJS logo">
 </p>
 
-# PTTJS - Plain Text Table JavaScript
+# PTTJS – Plain Text Table JavaScript
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://github.com/Sergek-Research/PTTJS/blob/main/LICENSE)
 
-**PTTJS** (Plain Text Table JavaScript) - это текстовый формат для представления таблиц и JavaScript библиотека для работы с ним.
+**PTTJS** (Plain Text Table JavaScript) is a plain‑text table format and a JavaScript library for working with it.
 
-Формат разработан с целью хранения сложных табличных структур данных в человекочитаемом текстовом виде, превосходя по возможностям традиционные форматы, такие как CSV или Markdown-таблицы, при этом сохраняя простоту и удобство редактирования.
+The format was created to store complex tabular data structures in a human‑readable text form, outperforming traditional formats such as CSV or Markdown tables while remaining simple and convenient to edit.
 
-## Описание формата PTTJS
+## PTTJS Format Overview
 
-**PTTJS** позволяет описывать таблицы с объединенными ячейками, многоуровневыми заголовками, несколькими листами и даже встроенными скриптами для обработки данных – и все это в простом текстовом файле.
+**PTTJS** lets you describe tables with merged cells, multi‑level headers, multiple sheets, and even embedded scripts for data processing – all in a single text file.
 
-📜 **Подробную спецификацию формата PTTJS, его синтаксис и возможности вы найдете в файле: [docs/PTTJS_FORMAT_SPECIFICATION.md](./docs/PTTJS_FORMAT_SPECIFICATION.md)**
+📜 **You can find the detailed PTTJS specification, syntax, and capabilities in** [docs/PTTJS_FORMAT_SPECIFICATION.md](./docs/PTTJS_FORMAT_SPECIFICATION.md)
 
-## Зачем нужен PTTJS?
+## Why PTTJS?
 
-Идея создания PTTJS возникла из следующих потребностей:
+The idea behind PTTJS came from several needs:
 
-1.  **Обучение LLM (Больших Языковых Моделей):** Предоставить LLM возможность понимать и обрабатывать таблицы со сложной структурой без необходимости привлечения мультимодальных моделей исключительно для анализа таких таблиц.
-2.  **Глубокая интеграция LLM с таблицами:** Научить LLM работать с таблицей как с единым целым, включая все ее данные и формулы, избегая сложных и "костыльных" решений, характерных для интеграции с Excel или Google Sheets.
-3.  **Удобство работы в текстовых редакторах:** Обеспечить комфортную работу со сложными таблицами в популярных текстовых редакторах, таких как VSCode и Obsidian (посредством плагинов).
-4.  **Альтернатива тяжеловесным решениям:** Предложить легкий и простой инструмент для 90% задач, связанных с таблицами, который мог бы заменить избыточные Microsoft Excel или Google Sheets.
+1. **Training LLMs (Large Language Models):** Let an LLM understand and process complex‑structured tables without having to resort to multimodal models just to parse such tables.
+2. **Deep LLM–table integration:** Teach an LLM to work with a table as a single entity – including all its data and formulas – without the convoluted “duct‑tape” solutions typical of Excel or Google Sheets integrations.
+3. **Comfort in text editors:** Make it pleasant to handle complex tables in popular editors such as VS Code and Obsidian (via plugins).
+4. **A lightweight alternative to heavyweight tools:** Provide a simple tool that covers 90 % of table‑related tasks and can replace overkill solutions like Microsoft Excel or Google Sheets.
 
-## Ключевые особенности формата
+## Key Features
 
-- Поддержка объединенных ячеек (через указание масштаба ячейки).
-- Многостраничные таблицы с именованными листами.
-- Явное обозначение заголовочных ячеек.
-- Опциональное указание индексов и уникальных ID для ячеек (для ссылок и формул).
-- Встроенный механизм экранирования специальных символов для сохранения целостности данных.
-- Мощный скриптовый блок (`>>>SCRIPT ... <<<SCRIPT`) для выполнения JavaScript-кода, определения формул, применения стилей и форматов к ячейкам и диапазонам.
+- Support for merged cells (via explicit cell span).
+- Multi‑sheet tables with named sheets.
+- Explicit header‑cell markers.
+- Optional indices and unique IDs for cells (for references and formulas).
+- Built‑in escaping for special characters to preserve data integrity.
+- A powerful script block (`>>>SCRIPT … <<<SCRIPT`) for running JavaScript code, defining formulas, and styling cells or ranges.
 
-## Установка библиотеки `pttjs`
+## Installing the `pttjs` library
 
-Вы можете установить библиотеку `pttjs` с помощью npm или yarn:
+Install `pttjs` with npm or yarn:
 
 ```bash
 npm install @sergek-research/pttjs
-# или
+# or
 yarn add @sergek-research/pttjs
 ```
 
-## Использование
+## Usage
 
-Библиотека предоставляет функции для парсинга PTTJS строк в JavaScript объекты и для сериализации этих объектов обратно в PTTJS строки.
+The library provides functions for parsing PTTJS strings into JavaScript objects and serialising those objects back into PTTJS strings.
 
-### Парсинг PTTJS строки
+### Parsing a PTTJS string
 
 ```javascript
 import { parse } from 'pttjs';
 
 const pttjsString = `|PTTJS 1.0|encoding=UTF-8|
-|H>Имя|H>Возраст<|
-|>Алиса|>30<|
-|>Боб|>24<|`;
+|H>Name|H>Age<|
+|>Alice|>30<|
+|>Bob|>24<|`;
 
 async function exampleParse() {
   try {
     const pttjsData = await parse(pttjsString);
     console.log(JSON.stringify(pttjsData, null, 2));
     /*
-    Примерный вид объекта pttjsData:
+    Sample structure of pttjsData:
     {
       "data": {
-        "@page1": { // ID страницы по умолчанию
-          "title": "Page 1", // Имя страницы по умолчанию
+        "@page1": {               // default page ID
+          "title": "Page 1",      // default page title
           "rows": [
             [
-              { "isHeader": true, "index": 0, "value": "Имя", ... },
-              { "isHeader": true, "index": 1, "value": "Возраст", ... }
+              { "isHeader": true,  "index": 0, "value": "Name", ... },
+              { "isHeader": true,  "index": 1, "value": "Age",  ... }
             ],
             [
-              { "isHeader": null, "index": 0, "value": "Алиса", ... },
-              { "isHeader": null, "index": 1, "value": "30", ... }
+              { "isHeader": null,  "index": 0, "value": "Alice", ... },
+              { "isHeader": null,  "index": 1, "value": "30",    ... }
             ],
             [
-              { "isHeader": null, "index": 0, "value": "Боб", ... },
-              { "isHeader": null, "index": 1, "value": "24", ... }
+              { "isHeader": null,  "index": 0, "value": "Bob",   ... },
+              { "isHeader": null,  "index": 1, "value": "24",    ... }
             ]
           ]
         }
       },
-      "typings": [],    // Массив для скриптов форматирования
-      "expressions": [], // Массив для скриптов вычислений (формул)
-      "styles": []       // Массив для скриптов стилизации
+      "typings": [],     // formatting scripts
+      "expressions": [], // calculation scripts (formulas)
+      "styles": []       // styling scripts
     }
     */
   } catch (error) {
-    console.error('Ошибка парсинга PTTJS:', error);
+    console.error('PTTJS parse error:', error);
   }
 }
 
 exampleParse();
 ```
 
-### Сериализация объекта в PTTJS строку
+### Serialising an object to a PTTJS string
 
 ```javascript
 import { serialize } from 'pttjs';
@@ -106,75 +106,78 @@ import { serialize } from 'pttjs';
 const dataToSerialize = {
   data: {
     '@customPageId': {
-      // Можно задать свой ID страницы
-      title: 'Пользователи',
+      // custom page ID
+      title: 'Users',
       rows: [
         [
-          { isHeader: true, value: 'Имя' },
-          { isHeader: true, value: 'Возраст' },
+          { isHeader: true, value: 'Name' },
+          { isHeader: true, value: 'Age' },
         ],
-        [{ value: 'Алиса' }, { value: '30' }],
-        [{ value: 'Боб' }, { value: '24' }],
+        [{ value: 'Alice' }, { value: '30' }],
+        [{ value: 'Bob' }, { value: '24' }],
       ],
     },
   },
-  // Можно также добавить скрипты:
+  // You can also add scripts:
   // expressions: [
-  //   [{ page: '@customPageId', cellStart: { x: '0', y: '3'}, cellEnd: null }, ['CONCAT', ['@customPageId|0|1'], ' - ', ['@customPageId|1|1']]]
+  //   [{ page: '@customPageId', cellStart: { x: '0', y: '3' }, cellEnd: null },
+  //    ['CONCAT', ['@customPageId|0|1'], ' - ', ['@customPageId|1|1']]]
   // ],
   typings: [],
   styles: [],
 };
 
-// Опции сериализации
-const showIndexes = false; // Показывать ли индексы ячеек ([0|0])
-const showPageHeaders = true; // Показывать ли заголовки страниц |(@P1|Название){ ... }| , если только одна страница
+// Serialisation options
+const showIndexes = false; // show cell indexes ([0|0])
+const showPageHeaders = true; // show |(@P1|Title){ … }| if only one page
 
 async function exampleSerialize() {
   try {
     const pttjsString = await serialize(dataToSerialize, showIndexes, showPageHeaders);
     console.log(pttjsString);
     /*
-    Примерный вывод:
-    |(@customPageId|Пользователи){
-    |H>Имя|H>Возраст<|
-    |>Алиса|>30<|
-    |>Боб|>24<|
+    Expected output:
+    |(@customPageId|Users){
+    |H>Name|H>Age<|
+    |>Alice|>30<|
+    |>Bob|>24<|
     }|
     */
   } catch (error) {
-    console.error('Ошибка сериализации PTTJS:', error);
+    console.error('PTTJS serialisation error:', error);
   }
 }
 
 exampleSerialize();
 ```
 
-## API (основные функции)
+## API (core functions)
 
-- `async parse(text: string): Promise<Store>`: Асинхронно парсит строку в формате PTTJS и возвращает объект `Store`, содержащий данные таблицы и скрипты.
-- `async serialize(store: Store, showIndex?: boolean, showPages?: boolean): Promise<string>`: Асинхронно сериализует объект `Store` в строку формата PTTJS.
-  - `showIndex` (опционально): Показывать ли позиционные индексы ячеек.
-  - `showPages` (опционально): Показывать ли разметку страниц (если страниц больше одной, разметка показывается автоматически).
-- `escapeValue(value: string): string`: Экранирует специальные символы (`\n`, `|`, `>`, `<`, `{`, `}`) в строке для безопасного использования внутри ячейки PTTJS.
-- `unescapeValue(value: string): string`: Преобразует URL-закодированные последовательности обратно в их исходные символы.
+- `async parse(text: string): Promise<Store>` – Parses a PTTJS string and returns a `Store` object containing table data and scripts.
+- `async serialize(store: Store, showIndex?: boolean, showPages?: boolean): Promise<string>` – Serialises a `Store` object back to a PTTJS string.
 
-(Типы данных, такие как `Store`, `PageItem`, `CellItem`, `ScriptArray` и другие, подробно описаны с помощью JSDoc в исходном коде библиотеки и доступны в сгенерированных `.d.ts` файлах для TypeScript проектов).
+  - `showIndex` (optional) – Include positional cell indexes.
+  - `showPages` (optional) – Include page markup (if there is more than one page, markup is always included automatically).
 
-## Планы на будущее
+- `escapeValue(value: string): string` – Escapes special characters (`\n`, `|`, `>`, `<`, `{`, `}`) so they can be safely placed inside a PTTJS cell.
+- `unescapeValue(value: string): string` – Reverses the escaping and restores the original characters.
 
-- [ ] Разработка плагина для VSCode с подсветкой синтаксиса и предпросмотром.
-- [ ] Создание плагина для Obsidian.
-- [ ] Расширение возможностей скриптового языка (новые встроенные функции, улучшенная работа с диапазонами).
-- [ ] Оптимизация производительности для работы с очень большими таблицами.
-- [ ] Интерактивный редактор PTTJS на веб-технологиях.
+(Data types such as `Store`, `PageItem`, `CellItem`, `ScriptArray`, and others are documented in the source code via JSDoc and exposed in the generated `.d.ts` files for TypeScript projects.)
 
-## Вклад
+## Roadmap
 
-Мы будем рады любому вкладу в развитие PTTJS!
+- [ ] VS Code plugin with syntax highlighting and preview.
+- [ ] Obsidian plugin.
+- [ ] Extended script‑language capabilities (new built‑in functions, improved range handling).
+- [ ] Performance optimisations for very large tables.
+- [ ] Web‑based interactive PTTJS editor.
 
-Вы можете сообщать об ошибках, предлагать новые функции или улучшения через раздел [Issues](https://github.com/Sergek-Research/PTTJS/issues) на GitHub.
+## Contributing
 
-## Лицензия
+We welcome any contributions to PTTJS!
 
-Проект PTTJS и данная библиотека распространяются под лицензией MIT. Подробности смотрите в файле [`LICENSE`](https://github.com/Sergek-Research/PTTJS/blob/main/LICENSE).
+Feel free to report bugs, propose new features, or suggest improvements in the [Issues](https://github.com/Sergek-Research/PTTJS/issues) section.
+
+## License
+
+PTTJS and this library are distributed under the MIT License. See the [`LICENSE`](https://github.com/Sergek-Research/PTTJS/blob/main/LICENSE) file for details.
