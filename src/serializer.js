@@ -226,7 +226,7 @@ export async function serialize({ data, typings, expressions, styles }, showInde
   const isNeedScripts =
     serializedTypings.trim().length || serializedExpressions.trim().length || serializedStyles.trim().length;
 
-  return `${results.join('\n')}${
+  return `|PTTJS 1.0|\n${results.join('\n')}${
     isNeedScripts
       ? `\n\n>>>SCRIPT\n${serializedTypings.trim().length ? `${serializedTypings}\n` : ''}${
           serializedExpressions.trim().length ? `${serializedExpressions}\n` : ''
