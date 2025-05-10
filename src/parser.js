@@ -61,7 +61,7 @@ async function findPageStarts(lines) {
  * @param {string} line Строка начала страницы
  * @returns {[string,string]} Массив [id,название]
  */
-function getPageMeta(line) {
+export function getPageMeta(line) {
   const regex = /\|\(?([^(){}]*)\)?\{/;
   const match = line.match(regex);
 
@@ -125,7 +125,7 @@ async function findCellLines(lines) {
  * @param {number} indexDefault Дефолтный индекс
  * @returns {CellItem} Объект ячейки без содержимого
  */
-function getCellMeta(header, indexDefault) {
+export function getCellMeta(header, indexDefault) {
   // Удаляем открывающий и закрывающие символы
   let isHeader = null;
   let index = indexDefault;
@@ -180,7 +180,7 @@ function getCellMeta(header, indexDefault) {
  * @param {string} line Валидная строка с ячейками
  * @returns {CellItem[]} Массив объектов ячеек
  */
-function findCellsInLine(line) {
+export function findCellsInLine(line) {
   // Удаляем закрывающие символы
   const cleanLine = line.slice(0, -2);
 
@@ -260,7 +260,7 @@ async function parseRows(lines, batchSize = 50000) {
  * @param {string[]} lines Массив строк для обработки
  * @returns {[number, string[]]} [Индекс начала скриптов, Массив строк скриптов]
  */
-function findScriptLines(lines) {
+export function findScriptLines(lines) {
   let startScriptsLine = null;
   let endScriptsLine = null;
   lines.forEach((el, i) => {
@@ -343,7 +343,7 @@ async function splitByIndices(strings, indices) {
  * @param {string} cellStr Строка для парсинга.
  * @returns {CellAddress} Объект адреса ячейки.
  */
-function parseCellString(cellStr) {
+export function parseCellString(cellStr) {
   const parts = cellStr.split('|');
   let page = null;
   let x = null;
@@ -401,7 +401,7 @@ function parseCellString(cellStr) {
  * @param {string} addressRegexMatch Строка, совпавшая с одним из regex (например, "(1|1,1|6)=>").
  * @returns {ScriptAddress} Объект адреса скрипта.
  */
-function parseAddressString(addressRegexMatch) {
+export function parseAddressString(addressRegexMatch) {
   let content;
   let suffixLength;
 
@@ -478,7 +478,7 @@ function parseAddressString(addressRegexMatch) {
  * @param {boolean} [parseArgumentsAsCells=false] Если true, строковые аргументы (не функции) парсятся через parseCellString.
  * @returns {FunctionCallArray} Массив [имя_функции, ...аргументы].
  */
-function parseFunctionCall(text, parseArgumentsAsCells = false) {
+export function parseFunctionCall(text, parseArgumentsAsCells = false) {
   const originalText = text;
   text = text.trim();
 
@@ -587,7 +587,7 @@ function parseFunctionCall(text, parseArgumentsAsCells = false) {
  * @param {string[]} scriptLines Массив строк для обработки.
  * @returns {{typings: ScriptArray[], expressions: ScriptArray[], styles: ScriptArray[]}} Объект с тремя массивами.
  */
-function processAndCategorizeScriptLines(scriptLines) {
+export function processAndCategorizeScriptLines(scriptLines) {
   const regexTypings = /^\((@[\w\d\s]+,)?(\d+(?::\d+)?\|\d+(?::\d+)?)(,\d+(?::\d+)?\|\d+(?::\d+)?)?\)=>/;
   const regexStyles = /^\((@[\w\d\s]+,)?(\d+(?::\d+)?\|\d+(?::\d+)?)(,\d+(?::\d+)?\|\d+(?::\d+)?)?\)<=/;
   const regexExpressions = /^\((@[\w\d]+\|)?\d+\|\d+\)=/;
