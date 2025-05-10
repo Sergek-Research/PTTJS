@@ -5,6 +5,7 @@
 
 # PTTJS – Plain Text Table JavaScript
 
+[![npm version](https://img.shields.io/npm/v/@sergek-research/pttjs.svg?style=flat-square)](https://www.npmjs.com/package/@sergek-research/pttjs)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://github.com/Sergek-Research/PTTJS/blob/main/LICENSE)
 
 **PTTJS** (Plain Text Table JavaScript) is a plain‑text table format and a JavaScript library for working with it.
