@@ -168,7 +168,7 @@ exampleSerialize();
 ## Roadmap
 
 - [ ] VS Code plugin with syntax highlighting and preview.
-- [ ] Obsidian plugin.
+- [x] [Obsidian plugin](https://github.com/Sergek-Research/pttjs-viewer).
 - [ ] Extended script‑language capabilities (new built‑in functions, improved range handling).
 - [ ] Performance optimisations for very large tables.
 - [ ] Web‑based interactive PTTJS editor.
