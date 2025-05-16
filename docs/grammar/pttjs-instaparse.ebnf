@@ -1,0 +1,42 @@
+(* ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; *)
+(* ;   P T T J S     —  Instaparse-compatible EBNF                              ; *)
+(* ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; *)
+
+PTTJS        = annotation body script-block? BL* EOF       (* корневой узел *)
+body         = (BL | page | row)*                          (* строковые данные *)
+
+(* --------------------  ANNOTATION  -------------- *)
+annotation   = "|" "PTTJS" WS version
+               ( "|" "encoding=" encoding )? "|"           (* encoding — опц. *)
+               EOL
+version      = #'[0-9]+(?:\.[0-9]+)?'
+encoding     = #'[^|\r\n]+'
+
+(* --------------------  PAGE  -------------------- *)
+page         = page-start (BL | row)+ page-end
+page-start   = "|" "(" page-meta ")" "{" EOL
+page-meta    = #'[^)]+'                                   (* напр. "@ID|Title" *)
+page-end     = "}" "|" EOL
+
+(* --------------------  ROW & CELL  -------------- *)
+row          = cell+ row-end EOL
+row-end      = "<|"                                        (* завершаем строку *)
+cell         = "|" header-flag? meta-block? ">" cell-value
+header-flag  = "H"
+meta-block   = "(" meta-inner ")"                          (* (0|0) и т.п. *)
+meta-inner   = #'[^)]*'
+cell-value   = #'[^|<\r\n]*'                               (* URL-экранировано *)
+
+(* --------------------  SCRIPT BLOCK ------------- *)
+script-block = ">>>SCRIPT" EOL
+               script-body
+               "<<<SCRIPT" EOL?
+script-body  = #'[\s\S]*?(?=<<<SCRIPT)'                    (* до `<<<SCRIPT` *)
+
+(* --------------------  TERMINАЛЫ ---------------- *)
+WS           = #'[ \t]+'                                   (* ≥1 пробел/таб *)
+SP           = #'[ \t]*'                                   (* ≥0 пробелов/табов *)
+BL           = SP EOL                                      (* пустая строка *)
+EOL          = NL | EOF                                    (* перевод строки / EOF *)
+NL           = #'\r?\n'                                    (* CRLF или LF *)
+EOF          = !#'.'                                       (* конец входа *)

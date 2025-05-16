@@ -3,6 +3,11 @@
        width="200" alt="PTTJS logo">
 </p>
 
+<p align="right">
+  <a href="README.ru.md">🇷🇺 Русский</a> |
+  <a href="README.md">🇬🇧 English</a>
+</p>
+
 # PTTJS - Plain Text Table JavaScript
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://github.com/Sergek-Research/PTTJS/blob/main/LICENSE)
@@ -160,6 +165,10 @@ exampleSerialize();
 - `unescapeValue(value: string): string`: Преобразует URL-закодированные последовательности обратно в их исходные символы.
 
 (Типы данных, такие как `Store`, `PageItem`, `CellItem`, `ScriptArray` и другие, подробно описаны с помощью JSDoc в исходном коде библиотеки и доступны в сгенерированных `.d.ts` файлах для TypeScript проектов).
+
+## Формальная грамматика
+
+- **EBNF грамматика (Instaparse):** [`docs/grammar/pttjs-instaparse.ebnf`](docs/grammar/pttjs-instaparse.ebnf)
 
 ## Планы на будущее
 

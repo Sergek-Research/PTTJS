@@ -3,6 +3,11 @@
        width="200" alt="PTTJS logo">
 </p>
 
+<p align="right">
+  <a href="README.ru.md">🇷🇺 Русский</a> |
+  <a href="README.md">🇬🇧 English</a>
+</p>
+
 # PTTJS – Plain Text Table JavaScript
 
 [![npm version](https://img.shields.io/npm/v/@sergek-research/pttjs.svg?style=flat-square)](https://www.npmjs.com/package/@sergek-research/pttjs)
@@ -164,6 +169,10 @@ exampleSerialize();
 - `unescapeValue(value: string): string` – Reverses the escaping and restores the original characters.
 
 (Data types such as `Store`, `PageItem`, `CellItem`, `ScriptArray`, and others are documented in the source code via JSDoc and exposed in the generated `.d.ts` files for TypeScript projects.)
+
+## Formal grammar
+
+- **EBNF grammar (Instaparse):** [`docs/grammar/pttjs-instaparse.ebnf`](docs/grammar/pttjs-instaparse.ebnf)
 
 ## Roadmap
 
